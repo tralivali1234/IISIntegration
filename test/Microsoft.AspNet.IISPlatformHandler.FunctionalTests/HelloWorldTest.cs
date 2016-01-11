@@ -78,6 +78,15 @@ namespace Microsoft.AspNet.IISPlatformHandler.FunctionalTests
                     try
                     {
                         Assert.Equal("Hello World", responseText);
+
+                        response = await httpClient.GetAsync("/Path%3F%3F?query");
+                        responseText = await response.Content.ReadAsStringAsync();
+                        Assert.Equal("/Path??", responseText);
+
+                        response = await httpClient.GetAsync("/Query%3FPath?query?");
+                        responseText = await response.Content.ReadAsStringAsync();
+                        Assert.Equal("?query?", responseText);
+
                     }
                     catch (XunitException)
                     {

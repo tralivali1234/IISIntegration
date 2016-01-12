@@ -9,8 +9,10 @@ namespace TestSites
     {
         public static void Main(string[] args)
         {
+            var hostingConfiguration = WebApplicationConfiguration.GetDefault(args);
             var application = new WebApplicationBuilder()
-                .UseConfiguration(WebApplicationConfiguration.GetDefault(args))
+                .UseIISPlatformHandler()
+                .UseConfiguration(hostingConfiguration)
                 .UseStartup("TestSites")
                 .Build();
 

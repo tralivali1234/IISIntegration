@@ -42,7 +42,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
                     ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("Https.config") : null,
                     SiteName = "HttpsTestSite", // This is configured in the Https.config
                     PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
-                    UseSharedRuntime = runtimeFlavor == RuntimeFlavor.CoreClr
+                    ApplicationType = runtimeFlavor == RuntimeFlavor.Clr ? ApplicationType.Standalone : ApplicationType.Portable
                 };
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, logger))
@@ -112,7 +112,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
                     ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("Https.config") : null,
                     SiteName = "HttpsTestSite", // This is configured in the Https.config
                     PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
-                    UseSharedRuntime = runtimeFlavor == RuntimeFlavor.CoreClr
+                    ApplicationType = runtimeFlavor == RuntimeFlavor.Clr ? ApplicationType.Standalone : ApplicationType.Portable
                 };
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, logger))

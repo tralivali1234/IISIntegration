@@ -41,7 +41,8 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
                     EnvironmentName = "HttpsHelloWorld", // Will pick the Start class named 'StartupHttpsHelloWorld',
                     ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("Https.config") : null,
                     SiteName = "HttpsTestSite", // This is configured in the Https.config
-                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netstandardapp1.5"
+                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
+                    UseSharedRuntime = runtimeFlavor == RuntimeFlavor.CoreClr
                 };
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, logger))
@@ -110,7 +111,8 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
                     EnvironmentName = "HttpsHelloWorld", // Will pick the Start class named 'StartupHttpsHelloWorld',
                     ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("Https.config") : null,
                     SiteName = "HttpsTestSite", // This is configured in the Https.config
-                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netstandardapp1.5"
+                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
+                    UseSharedRuntime = runtimeFlavor == RuntimeFlavor.CoreClr
                 };
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, logger))

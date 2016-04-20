@@ -36,7 +36,8 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
                     EnvironmentName = "NtlmAuthentication", // Will pick the Start class named 'StartupNtlmAuthentication'
                     ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("NtlmAuthentation.config") : null,
                     SiteName = "NtlmAuthenticationTestSite", // This is configured in the NtlmAuthentication.config
-                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netstandardapp1.5"
+                    PublishTargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
+                    UseSharedRuntime = runtimeFlavor == RuntimeFlavor.CoreClr
                 };
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, logger))

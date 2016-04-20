@@ -16,17 +16,29 @@
     "xunit": "2.1.0"
   },
   "frameworks": {
-    "netstandardapp1.5": {
+    "netcoreapp1.0": {
       "imports": [
         "portable-net451+win8",
         "dnxcore50"
       ],
       "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0-*",
+          "type": "platform"
+        },
         "System.Net.Primitives": "4.0.11-*",
-        "NETStandard.Library": "1.5.0-*",
         "System.Diagnostics.Process": "4.1.0-*"
       }
     },
     "net451": {}
+  },
+  "tools": {
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
+      "version": "1.0.0-*",
+      "imports": "portable-net45+wp80+win8+wpa81+dnxcore50"
+    }
+  },
+  "scripts": {
+    "postpublish": "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
   }
 }

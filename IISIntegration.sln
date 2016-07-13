@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04B1EDB6-E967-4D25-89B9-E6F8304038CD}"
 EndProject
@@ -29,6 +29,8 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.AspNetCore.Server.IISIntegration.Tools", "src\Microsoft.AspNetCore.Server.IISIntegration.Tools\Microsoft.AspNetCore.Server.IISIntegration.Tools.xproj", "{B1BC61B7-BA1D-4100-A2E8-49D00CE2771D}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestSites.Portable", "test\TestSites.Portable\TestSites.Portable.xproj", "{F54715C3-88D8-49E3-A291-C13570FE81FC}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DelegationSample", "samples\DelegationSample\DelegationSample.xproj", "{67FC4FCB-82B1-4EDE-9EC2-47A805330777}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{F54715C3-88D8-49E3-A291-C13570FE81FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F54715C3-88D8-49E3-A291-C13570FE81FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F54715C3-88D8-49E3-A291-C13570FE81FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67FC4FCB-82B1-4EDE-9EC2-47A805330777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67FC4FCB-82B1-4EDE-9EC2-47A805330777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67FC4FCB-82B1-4EDE-9EC2-47A805330777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67FC4FCB-82B1-4EDE-9EC2-47A805330777}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +87,6 @@ Global
 		{D0FA003D-DE4C-480E-B4A4-BD38691B36AD} = {EF30B533-D715-421A-92B7-92FEF460AC9C}
 		{B1BC61B7-BA1D-4100-A2E8-49D00CE2771D} = {04B1EDB6-E967-4D25-89B9-E6F8304038CD}
 		{F54715C3-88D8-49E3-A291-C13570FE81FC} = {EF30B533-D715-421A-92B7-92FEF460AC9C}
+		{67FC4FCB-82B1-4EDE-9EC2-47A805330777} = {C74B8F36-FD2F-45C9-9B8A-00E7CF0126A9}
 	EndGlobalSection
 EndGlobal

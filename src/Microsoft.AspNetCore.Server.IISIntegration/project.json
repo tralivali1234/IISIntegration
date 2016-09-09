@@ -8,17 +8,6 @@
     ],
     "xmlDoc": true
   },
-  "description": "ASP.NET Core components for working with the IIS AspNetCoreModule.",
-  "packOptions": {
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/aspnet/IISIntegration"
-    },
-    "tags": [
-      "aspnetcore",
-      "iis"
-    ]
-  },
   "dependencies": {
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.1.0-*",
     "Microsoft.AspNetCore.Http": "1.1.0-*",
@@ -39,7 +28,7 @@
     "net451": {},
     "netstandard1.3": {
       "dependencies": {
-        "System.Security.Principal.Windows": "4.0.0-*"
+        "System.Security.Principal.Windows": "4.0.0"
       }
     }
   }

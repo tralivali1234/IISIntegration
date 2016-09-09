@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <_AspNetCoreIISOldMSBuild Condition=" '$(MSBuildToolsVersion)' == '14.0' Or '$(MSBuildToolsVersion)' == '12.0' ">true</_AspNetCoreIISOldMSBuild>
+
+        <!-- test hook -->
+        <_AspNetCoreIISIntegrationTasksFolder Condition="'$(_AspNetCoreIISIntegrationTasksFolder)' != '' And !HasTrailingSlash('$(_AspNetCoreIISIntegrationTasksFolder)')">$(_AspNetCoreIISIntegrationTasksFolder)\</_AspNetCoreIISIntegrationTasksFolder>
+        <_AspNetCoreIISIntegrationTasksFolder Condition=" '$(_AspNetCoreIISIntegrationTasksFolder)' == ''">$(MSBuildThisDirectory)</_AspNetCoreIISIntegrationTasksFolder>
+    </PropertyGroup>
+
+    <UsingTask AssemblyFile="$(_AspNetCoreIISIntegrationTasksFolder)Microsoft.AspNetCore.Server.IISIntegration.Tasks.dll" TaskName="Microsoft.AspNetCore.Server.IISIntegration.Tasks.TransformWebConfig" />
+
+    <Target Name="PublishForIIS"
+            AfterTargets="Publish"
+            DependsOnTargets="Publish"
+            Condition="'$(DesignTimeBuild)' != 'true' And '$(OutputType)' == 'exe'">
+      <Message Importance="High"
+               Condition="'$(_AspNetCoreIISOldMSBuild)' == 'true'"
+               Text="PublishForIIS does not support the current version of MSBuild. Skipping this target." />
+      <CallTarget Targets="_PublishForIIS" Condition="'$(_AspNetCoreIISOldMSBuild)' != 'true'" />
+    </Target>
+
+    <Target Name="_PublishForIIS">
+        <PropertyGroup>
+            <!--TODO use shared property to determine if app is portable -->
+            <_IsPortable Condition=" '$(_IsPortable)' == '' And '$(RuntimeIdentifier)' == '' And '$(OutputType)' == 'exe'">true</_IsPortable>
+            <_TransformWebConfigForAzure Condition=" '$(WEBSITE_SITE_NAME)' != '' Or '$(DOTNET_CONFIGURE_AZURE)' == 'true' Or '$(DOTNET_CONFIGURE_AZURE)' == '1'">true</_TransformWebConfigForAzure>
+        </PropertyGroup>
+
+        <TransformWebConfig
+            TargetPath="$(TargetPath)"
+            PublishDir="$(PublishDir)"
+            IsPortable="$(_IsPortable)"
+            IsAzure="$(_TransformWebConfigForAzure)" />
+    </Target>
+</Project>

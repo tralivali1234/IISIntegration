@@ -43,7 +43,7 @@ namespace Microsoft.AspNetCore.Hosting
             if (!string.IsNullOrEmpty(port) && !string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(pairingToken))
             {
                 // Set flag to prevent double service configuration
-                hostBuilder.UseSetting(nameof(UseIISIntegration), string.Empty);
+                hostBuilder.UseSetting(nameof(UseIISIntegration), true.ToString());
 
                 var address = "http://localhost:" + port;
                 hostBuilder.CaptureStartupErrors(true);

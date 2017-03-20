@@ -59,6 +59,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                     throw new InvalidOperationException("IServiceCollection.AddAuthentication() is required to use Authentication.");
                 }
 
+                auth.AddScheme(new AuthenticationScheme("NTLM", typeof(AuthenticationHandler), new Dictionary<string, object>()));
                 auth.AddScheme(new AuthenticationScheme("Negotiate", typeof(AuthenticationHandler), new Dictionary<string, object>()));
             }
 

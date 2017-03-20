@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ namespace IISSample
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication();
             // These two middleware are registered via an IStartupFilter in UseIISIntegration but you can configure them here.
             services.Configure<IISOptions>(options =>
             {

@@ -4,15 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -59,8 +56,8 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                     throw new InvalidOperationException("IServiceCollection.AddAuthentication() is required to use Authentication.");
                 }
 
-                auth.AddScheme(new AuthenticationScheme("NTLM", typeof(AuthenticationHandler), new Dictionary<string, object>()));
-                auth.AddScheme(new AuthenticationScheme("Negotiate", typeof(AuthenticationHandler), new Dictionary<string, object>()));
+                auth.AddScheme(new AuthenticationScheme("NTLM", typeof(AuthenticationHandler)));
+                auth.AddScheme(new AuthenticationScheme("Negotiate", typeof(AuthenticationHandler)));
             }
 
             _pairingToken = pairingToken;

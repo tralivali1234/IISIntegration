@@ -15,6 +15,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
     internal class AuthenticationHandler : IAuthenticationHandler
     {
         private const string MSAspNetCoreWinAuthToken = "MS-ASPNETCORE-WINAUTHTOKEN";
+        private WindowsPrincipal _user;
 
         internal AuthenticationScheme Scheme { get; private set; }
 
@@ -33,25 +34,27 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
 
         private WindowsPrincipal GetUser(HttpContext httpContext)
         {
-            var tokenHeader = httpContext.Request.Headers[MSAspNetCoreWinAuthToken];
-
-            int hexHandle;
-            WindowsPrincipal winPrincipal = null;
-            if (!StringValues.IsNullOrEmpty(tokenHeader)
-                && int.TryParse(tokenHeader, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexHandle))
+            if (_user == null)
             {
-                // Always create the identity if the handle exists, we need to dispose it so it does not leak.
-                var handle = new IntPtr(hexHandle);
-                var winIdentity = new WindowsIdentity(handle);
+                var tokenHeader = httpContext.Request.Headers[MSAspNetCoreWinAuthToken];
 
-                // WindowsIdentity just duplicated the handle so we need to close the original.
-                NativeMethods.CloseHandle(handle);
+                int hexHandle;
+                if (!StringValues.IsNullOrEmpty(tokenHeader)
+                    && int.TryParse(tokenHeader, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexHandle))
+                {
+                    // Always create the identity if the handle exists, we need to dispose it so it does not leak.
+                    var handle = new IntPtr(hexHandle);
+                    var winIdentity = new WindowsIdentity(handle);
 
-                httpContext.Response.RegisterForDispose(winIdentity);
-                winPrincipal = new WindowsPrincipal(winIdentity);
+                    // WindowsIdentity just duplicated the handle so we need to close the original.
+                    NativeMethods.CloseHandle(handle);
+
+                    httpContext.Response.RegisterForDispose(winIdentity);
+                    _user = new WindowsPrincipal(winIdentity);
+                }
             }
 
-            return winPrincipal;
+            return _user;
         }
 
 

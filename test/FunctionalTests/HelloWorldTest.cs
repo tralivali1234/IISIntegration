@@ -26,42 +26,42 @@ namespace Microsoft.AspNetCore.Server.IISIntegration.FunctionalTests
         [ConditionalTheory]
         [OSSkipCondition(OperatingSystems.Linux | OperatingSystems.MacOSX)]
         [FrameworkSkipCondition(RuntimeFrameworks.CoreCLR)]
-        //[InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x86, ServerType.Kestrel, ApplicationType.Portable)]
-        [InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x64, ServerType.Kestrel, ApplicationType.Portable)]
-        public Task HelloWorld_IISExpress(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ServerType delegateServer, ApplicationType applicationType)
+        //[InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x86, ApplicationType.Portable)]
+        [InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x64, ApplicationType.Portable)]
+        public Task HelloWorld_IISExpress(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ApplicationType applicationType)
         {
-            return HelloWorld(ServerType.IISExpress, runtimeFlavor, architecture, delegateServer, applicationType);
+            return HelloWorld(ServerType.IISExpress, runtimeFlavor, architecture, applicationType);
         }
 
         [ConditionalTheory]
         [OSSkipCondition(OperatingSystems.Linux | OperatingSystems.MacOSX)]
         [FrameworkSkipCondition(RuntimeFrameworks.CLR)]
-        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, ServerType.Kestrel, ApplicationType.Portable)]
+        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, ApplicationType.Portable)]
         // TODO reenable when https://github.com/dotnet/sdk/issues/696 is resolved
-        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ServerType.Kestrel, ApplicationType.Standalone)]
-        [InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ServerType.Kestrel, ApplicationType.Portable)]
-        public Task HelloWorld_IISExpress_CoreClr(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ServerType delegateServer, ApplicationType applicationType)
+        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone)]
+        [InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
+        public Task HelloWorld_IISExpress_CoreClr(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ApplicationType applicationType)
         {
-            return HelloWorld(ServerType.IISExpress, runtimeFlavor, architecture, delegateServer, applicationType);
+            return HelloWorld(ServerType.IISExpress, runtimeFlavor, architecture, applicationType);
         }
 
         [ConditionalTheory]
         [SkipIfEnvironmentVariableNotEnabled("IIS_VARIATIONS_ENABLED")]
         [OSSkipCondition(OperatingSystems.Linux | OperatingSystems.MacOSX)]
         [FrameworkSkipCondition(RuntimeFrameworks.CoreCLR)]
-        [InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x64, ServerType.Kestrel, ApplicationType.Portable)]
-        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, ServerType.Kestrel, ApplicationType.Standalone)]
-        public Task HelloWorld_IIS(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ServerType delegateServer, ApplicationType applicationType)
+        [InlineData(RuntimeFlavor.Clr, RuntimeArchitecture.x64, ApplicationType.Portable)]
+        //[InlineData(RuntimeFlavor.CoreClr, RuntimeArchitecture.x86, ApplicationType.Standalone)]
+        public Task HelloWorld_IIS(RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ApplicationType applicationType)
         {
-            return HelloWorld(ServerType.IIS, runtimeFlavor, architecture, delegateServer, applicationType);
+            return HelloWorld(ServerType.IIS, runtimeFlavor, architecture, applicationType);
         }
 
-        public async Task HelloWorld(ServerType serverType, RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ServerType delegateServer, ApplicationType applicationType)
+        public async Task HelloWorld(ServerType serverType, RuntimeFlavor runtimeFlavor, RuntimeArchitecture architecture, ApplicationType applicationType)
         {
             var loggerFactory = new LoggerFactory()
                 .AddXunit(_output)
                 .AddDebug();
-            var logger = loggerFactory.CreateLogger($"HelloWorld:{serverType}:{runtimeFlavor}:{architecture}:{delegateServer}");
+            var logger = loggerFactory.CreateLogger($"HelloWorld:{serverType}:{runtimeFlavor}:{architecture}");
 
             using (logger.BeginScope("HelloWorldTest"))
             {

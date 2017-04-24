@@ -16,12 +16,13 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
     {
         private const string MSAspNetCoreWinAuthToken = "MS-ASPNETCORE-WINAUTHTOKEN";
         private WindowsPrincipal _user;
+        private HttpContext _context;
 
         internal AuthenticationScheme Scheme { get; private set; }
 
-        public Task<AuthenticateResult> AuthenticateAsync(AuthenticateContext context) 
+        public Task<AuthenticateResult> AuthenticateAsync() 
         {
-            var user = GetUser(context.HttpContext);
+            var user = GetUser();
             if (user != null)
             {
                 return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(user, Scheme.Name)));
@@ -32,11 +33,11 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
             }
         }
 
-        private WindowsPrincipal GetUser(HttpContext httpContext)
+        private WindowsPrincipal GetUser()
         {
             if (_user == null)
             {
-                var tokenHeader = httpContext.Request.Headers[MSAspNetCoreWinAuthToken];
+                var tokenHeader = _context.Request.Headers[MSAspNetCoreWinAuthToken];
 
                 int hexHandle;
                 if (!StringValues.IsNullOrEmpty(tokenHeader)
@@ -49,7 +50,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                     // WindowsIdentity just duplicated the handle so we need to close the original.
                     NativeMethods.CloseHandle(handle);
 
-                    httpContext.Response.RegisterForDispose(winIdentity);
+                    _context.Response.RegisterForDispose(winIdentity);
                     _user = new WindowsPrincipal(winIdentity);
                 }
             }
@@ -64,7 +65,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
             {
                 case ChallengeBehavior.Automatic:
                     // If there is a principal already, invoke the forbidden code path
-                    if (GetUser(context.HttpContext) == null)
+                    if (GetUser() == null)
                     {
                         goto case ChallengeBehavior.Unauthorized;
                     }
@@ -86,6 +87,7 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
         public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)
         {
             Scheme = scheme;
+            _context = context;
             return TaskCache.CompletedTask;
         }
 

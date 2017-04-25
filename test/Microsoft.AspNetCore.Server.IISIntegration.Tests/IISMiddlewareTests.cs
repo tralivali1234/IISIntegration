@@ -162,12 +162,10 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                     app.Run(async context => 
                     {
                         var auth = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
-                        var ntlm = await auth.GetSchemeAsync("NTLM");
-                        Assert.NotNull(ntlm);
-                        Assert.Equal("Microsoft.AspNetCore.Server.IISIntegration.AuthenticationHandler", ntlm.HandlerType.FullName);
-                        var negotiate = await auth.GetSchemeAsync("Negotiate");
-                        Assert.NotNull(negotiate);
-                        Assert.Equal("Microsoft.AspNetCore.Server.IISIntegration.AuthenticationHandler", negotiate.HandlerType.FullName);
+                        var windows = await auth.GetSchemeAsync("Windows");
+                        Assert.NotNull(windows);
+                        Assert.Null(windows.DisplayName);
+                        Assert.Equal("Microsoft.AspNetCore.Server.IISIntegration.AuthenticationHandler", windows.HandlerType.FullName);
                         assertsExecuted = true;
                     });
                 });

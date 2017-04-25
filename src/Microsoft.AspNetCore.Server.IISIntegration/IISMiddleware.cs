@@ -51,13 +51,10 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
             if (_options.ForwardWindowsAuthentication)
             {
                 var auth = authentication.FirstOrDefault();
-                if (auth == null)
+                if (auth != null)
                 {
-                    throw new InvalidOperationException("IServiceCollection.AddAuthentication() is required to use Authentication.");
+                    auth.AddScheme(new AuthenticationScheme("Windows", displayName: null, handlerType: typeof(AuthenticationHandler)));
                 }
-
-                auth.AddScheme(new AuthenticationScheme("NTLM", /*displayName*/ null,typeof(AuthenticationHandler)));
-                auth.AddScheme(new AuthenticationScheme("Negotiate", /*displayName*/ null, typeof(AuthenticationHandler)));
             }
 
             _pairingToken = pairingToken;

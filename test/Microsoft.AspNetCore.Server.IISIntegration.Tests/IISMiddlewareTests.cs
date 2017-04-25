@@ -178,8 +178,10 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
             Assert.True(assertsExecuted);
         }
 
-        [Fact]
-        public async Task DoesNotAddAuthenticationHandlerIfWindowsAuthDisabled()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task OnlyAddAuthenticationHandlerIfForwardWindowsAuthentication(bool forward)
         {
             var assertsExecuted = false;
 
@@ -192,7 +194,52 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 {
                     services.Configure<IISOptions>(options =>
                     {
-                        options.ForwardWindowsAuthentication = false;
+                        options.ForwardWindowsAuthentication = forward;
+                    });
+                    services.AddAuthenticationCore();
+                })
+                .Configure(app =>
+                {
+                    app.Run(async context => 
+                    {
+                        var auth = context.RequestServices.GetService<IAuthenticationSchemeProvider>();
+                        Assert.NotNull(auth);
+                        var windowsAuth = await auth.GetSchemeAsync("Windows");
+                        if (forward)
+                        {
+                            Assert.NotNull(windowsAuth);
+                            Assert.Null(windowsAuth.DisplayName);
+                            Assert.Equal("AuthenticationHandler", windowsAuth.HandlerType.Name);
+                        }
+                        assertsExecuted = true;
+                    });
+                });
+            var server = new TestServer(builder);
+
+            var req = new HttpRequestMessage(HttpMethod.Get, "");
+            req.Headers.TryAddWithoutValidation("MS-ASPNETCORE-TOKEN", "TestToken");
+            await server.CreateClient().SendAsync(req);
+
+            Assert.True(assertsExecuted);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task DoesNotBlowUpWithoutAuth(bool forward)
+        {
+            var assertsExecuted = false;
+
+            var builder = new WebHostBuilder()
+                .UseSetting("TOKEN", "TestToken")
+                .UseSetting("PORT", "12345")
+                .UseSetting("APPL_PATH", "/")
+                .UseIISIntegration()
+                .ConfigureServices(services =>
+                {
+                    services.Configure<IISOptions>(options =>
+                    {
+                        options.ForwardWindowsAuthentication = forward;
                     });
                 })
                 .Configure(app =>
@@ -213,5 +260,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
 
             Assert.True(assertsExecuted);
         }
+
     }
 }

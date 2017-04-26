@@ -73,18 +73,6 @@ namespace TestSites
                     return context.ChallengeAsync();
                 }
 
-                if (context.Request.Path.Equals("/RestrictedNegotiate"))
-                {
-                    if (string.Equals("Negotiate", context.User.Identity.AuthenticationType, StringComparison.Ordinal))
-                    {
-                        return context.Response.WriteAsync("Negotiate");
-                    }
-                    else
-                    {
-                        return context.ChallengeAsync("Windows");
-                    }
-                }
-
                 if (context.Request.Path.Equals("/RestrictedNTLM"))
                 {
                     if (string.Equals("NTLM", context.User.Identity.AuthenticationType, StringComparison.Ordinal))

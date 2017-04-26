@@ -211,6 +211,10 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                             Assert.Null(windowsAuth.DisplayName);
                             Assert.Equal("AuthenticationHandler", windowsAuth.HandlerType.Name);
                         }
+                        else
+                        {
+                            Assert.Null(windowsAuth);
+                        }
                         assertsExecuted = true;
                     });
                 });

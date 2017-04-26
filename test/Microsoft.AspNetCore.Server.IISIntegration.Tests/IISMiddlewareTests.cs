@@ -25,7 +25,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 .UseSetting("PORT", "12345")
                 .UseSetting("APPL_PATH", "/")
                 .UseIISIntegration()
-                .ConfigureServices(services => services.AddAuthentication())
                 .Configure(app =>
                 {
                     app.Run(context =>
@@ -55,7 +54,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 .UseSetting("PORT", "12345")
                 .UseSetting("APPL_PATH", "/")
                 .UseIISIntegration()
-                .ConfigureServices(services => services.AddAuthentication())
                 .Configure(app =>
                 {
                     app.Run(context =>
@@ -82,7 +80,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 .UseSetting("PORT", "12345")
                 .UseSetting("APPL_PATH", "/")
                 .UseIISIntegration()
-                .ConfigureServices(services => services.AddAuthentication())
                 .Configure(app =>
                 {
                     app.Run(context => Task.FromResult(0));
@@ -106,7 +103,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 .UseSetting("PORT", "12345")
                 .UseSetting("APPL_PATH", "/pathBase")
                 .UseIISIntegration()
-                .ConfigureServices(services => services.AddAuthentication())
                 .Configure(app =>
                 {
                     app.Run(context => Task.FromResult(0));
@@ -126,7 +122,6 @@ namespace Microsoft.AspNetCore.Server.IISIntegration
                 .UseSetting("PORT", "12345")
                 .UseSetting("APPL_PATH", "/pathbase")
                 .UseIISIntegration()
-                .ConfigureServices(services => services.AddAuthentication())
                 .Configure(app =>
                 {
                     app.Run(context =>
